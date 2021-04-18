@@ -12,6 +12,8 @@ using Supermarket.Services;
 using Supermarket.Persistence.Context;
 using Supermarket.Persistence.Repositories;
 
+using AutoMapper;
+
 namespace Supermarket
 {
     public class Startup
@@ -34,6 +36,7 @@ namespace Supermarket
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +47,7 @@ namespace Supermarket
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
