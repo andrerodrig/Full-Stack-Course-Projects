@@ -30,9 +30,14 @@ namespace Supermarket.Persistence.Repositories
             return await this.context.Categories.FindAsync(id);
         }
 
-        public void UpdateAsync(Category category)
+        public void Update(Category category)
         {
             this.context.Categories.Update(category);
+        }
+
+        public void Remove(Category category)
+        {
+            this.context.Categories.Remove(category);
         }
     }
 }
