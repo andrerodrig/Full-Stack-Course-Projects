@@ -15,19 +15,19 @@ namespace Supermarket.Controllers
     [Route("/api/[controller]")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryService CategoryService;
+        private readonly ICategoryService categoryService;
         private readonly IMapper mapper;
 
         public CategoryController(ICategoryService categoryService, IMapper mapper)
         {
-            this.CategoryService = categoryService;
+            this.categoryService = categoryService;
             this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IEnumerable<CategoryResource>> GetAllAsync()
         {
-            var categories = await this.CategoryService.ListAsync();
+            var categories = await this.categoryService.ListAsync();
             var resources = this.mapper.Map<IEnumerable<Category>, IEnumerable<CategoryResource>>(categories);
             return resources;
         }
@@ -39,7 +39,7 @@ namespace Supermarket.Controllers
                 return BadRequest(ModelState.GetErrorMessages());
 
             var category = this.mapper.Map<SaveCategoryResource, Category>(resource);
-            var result = await this.CategoryService.SaveAsync(category);
+            var result = await this.categoryService.SaveAsync(category);
 
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -55,9 +55,21 @@ namespace Supermarket.Controllers
                 return BadRequest(ModelState.GetErrorMessages());
 
             var category = this.mapper.Map<SaveCategoryResource, Category>(resource);
-            var result = await this.CategoryService.UpdateAsync(id, category);
+            var result = await this.categoryService.UpdateAsync(id, category);
 
             if (!result.Success)
+                return BadRequest(result.Message);
+
+            var categoryResource = this.mapper.Map<Category, CategoryResource>(result.Category);
+            return Ok(categoryResource);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var result = await this.categoryService.DeleteAsync(id);
+
+            if(!result.Success)
                 return BadRequest(result.Message);
 
             var categoryResource = this.mapper.Map<Category, CategoryResource>(result.Category);
