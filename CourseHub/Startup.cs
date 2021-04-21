@@ -9,29 +9,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+
+using CourseHub.Domain.Model;
+using CourseHub.Domain.Service;
+using CourseHub.Domain.Repository;
+using CourseHub.Persistence.Context;
+using CourseHub.Persistence.Repository;
+using CourseHub.Service;
 
 namespace CourseHub
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CourseHub", Version = "v1" });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddDbContext<AppDbContext>(options => {
+                options.UseInMemoryDatabase("coursehub-api-in-memory");
             });
+
+            services.AddScoped<ICompanyRepository,CompanyRepository>();
+            services.AddScoped<ICompanyService,CompanyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,8 +49,6 @@ namespace CourseHub
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CourseHub v1"));
             }
 
             app.UseHttpsRedirection();
