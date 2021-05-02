@@ -8,5 +8,7 @@ namespace CourseHub.Domain.Repository
     public interface ICompanyRepository
     {
         Task<IEnumerable<Company>> ListAsync();
+        Task<Company> DetailAsync(int id);
+        Task AddAsync(Company company);
     }
 }

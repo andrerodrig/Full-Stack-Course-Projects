@@ -22,7 +22,7 @@ namespace CourseHub.Persistence.Context
             builder.Entity<Company>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
             builder.Entity<Company>().Property(c => c.FantasyName).IsRequired().HasMaxLength(40);
             builder.Entity<Company>().Property(c => c.SocialReason).IsRequired().HasMaxLength(50);
-            builder.Entity<Company>().Property(c => c.Cnpj).IsRequired().HasMaxLength(11);
+            builder.Entity<Company>().Property(c => c.Cnpj).IsRequired().HasMaxLength(14);
             builder.Entity<Company>().HasMany(c => c.Courses).WithOne(c => c.Company).HasForeignKey(c => c.CompanyId);
             builder.Entity<Company>().HasIndex(c => c.Cnpj).IsUnique();
 

@@ -39,6 +39,7 @@ namespace CourseHub
 
             services.AddScoped<ICompanyRepository,CompanyRepository>();
             services.AddScoped<ICompanyService,CompanyService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper();
         }
 
@@ -50,7 +51,7 @@ namespace CourseHub
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

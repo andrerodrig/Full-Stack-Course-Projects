@@ -17,5 +17,15 @@ namespace CourseHub.Persistence.Repository
         {
             return await this.context.Companies.ToListAsync();
         }
+
+        public async Task<Company> DetailAsync(int id)
+        {
+            return await this.context.Companies.FindAsync(id);
+        }
+
+        public async Task AddAsync(Company company)
+        {
+            await this.context.Companies.AddAsync(company);
+        }
     }
 }
