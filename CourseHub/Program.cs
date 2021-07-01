@@ -15,7 +15,7 @@ namespace CourseHub
         {
             CreateHostBuilder(args).Build().Run();
         }
-
+        // sasodsodaosdajdoasjqejqpojefoe
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
